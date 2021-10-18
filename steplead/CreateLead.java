@@ -66,9 +66,10 @@ public class CreateLead {
 		Assert.assertEquals(displayed,true );
 	}
 	@When("Click on {string} link")
-	public void clickLink(String linkText)
+	public void clickLink(String linkText) throws InterruptedException
 	{
 		//driver.findElement(By.linkText(linkText)).click();
+		Thread.sleep(1000);
 		driver.findElement(By.xpath("//a[contains(text(),'"+linkText+"')]")).click();
 	}
 	@Then("Navigate to {string} page")
@@ -112,6 +113,7 @@ public class CreateLead {
 	}
 	@Then("Switch to windowhandle0")
 	public void switchWindowHandle0() {
+		System.out.println(allhandles.size()+"Size");
 		driver.switchTo().window(allhandles.get(0));
 	}
 	@When("Click on Submit button")
@@ -124,7 +126,7 @@ public class CreateLead {
 	 
 		driver.findElement(By.xpath("//img[@alt='Lookup']")).click();
 		Set<String> allWindows = driver.getWindowHandles();
-		List<String> allhandles = new ArrayList<String>(allWindows);
+		 allhandles = new ArrayList<String>(allWindows);
 		driver.switchTo().window(allhandles.get(1));
 	
 	}
@@ -151,14 +153,23 @@ public void lookup() throws InterruptedException
 	
 	driver.findElement(By.xpath("(//img[@alt='Lookup'])[2]")).click();
 	Set<String> allWindows2 = driver.getWindowHandles();
-	List<String> allhandles2 = new ArrayList<String>(allWindows2);
+	 allhandles2 = new ArrayList<String>(allWindows2);
 	driver.switchTo().window(allhandles2.get(1));
 }
 @When("Click on  first LeadId")
-public void firstLeadId()
+public void firstLeadId() throws InterruptedException
 {
 driver.findElement(By.xpath("//div[@class='x-grid3-cell-inner x-grid3-col-partyId']/a")).click();
+}
+@Then("Switch to windowhandle")
+public void switchWindowHandle1() {
+	
+System.out.println(allhandles.size()+"Size");
 driver.switchTo().window(allhandles2.get(0));
+}
+@Then("Handle alert")
+public void handleAlert()
+{
 driver.findElement(By.xpath("//a[text()='Merge']")).click();
 driver.switchTo().alert().accept();
 }
@@ -200,9 +211,10 @@ public void update()
 @Then("Get the {string} updated and validate")
 public void validate(String companyName) {
 	 companyName = driver.findElement(By.xpath("//span[@id='viewLead_companyName_sp']")).getText();	
-	 System.out.println("newcompanyName: "+companyName);
-	 companyName=companyName.replaceAll("//w","");
-	 if(companyName.equals(newCompanyName))
+	 String companyName1=companyName.replaceAll("//d"," ");
+	 System.out.println("newcompanyName: "+companyName1);
+	
+	 if(companyName1.equals(newCompanyName))
 	 {
 		 System.out.println("Company name is updated");
 	 }
